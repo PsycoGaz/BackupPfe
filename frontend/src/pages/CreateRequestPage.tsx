@@ -36,6 +36,7 @@ export function CreateRequestPage() {
         }
       }
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const domains = [...new Set(formations.map((f) => f.domain))];

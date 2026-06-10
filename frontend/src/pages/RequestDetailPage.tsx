@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react';
-import { useParams, useNavigate, Link } from 'react-router-dom';
+import { useEffect, useState, useCallback } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { trainingRequestService } from '../services/training-request.service';
 import { decisionService } from '../services/decision.service';
@@ -23,6 +23,7 @@ export function RequestDetailPage() {
       loadRequest();
       loadComments();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
   const loadRequest = async () => {

@@ -5,6 +5,7 @@ import { RequestDecision } from './request-decision.entity';
 import { TrainingRequest } from '../training-requests/training-request.entity';
 import { User } from '../users/user.entity';
 import { WorkflowService } from '../workflow/workflow.service';
+import { NotificationsService } from '../notifications/notifications.service';
 import { RequestStatus, UserRole } from '../../common/enums';
 import { BadRequestException, ForbiddenException } from '@nestjs/common';
 
@@ -41,6 +42,7 @@ describe('DecisionsService', () => {
         { provide: getRepositoryToken(TrainingRequest), useValue: mockRequestRepo },
         { provide: getRepositoryToken(User), useValue: mockUserRepo },
         { provide: WorkflowService, useValue: mockWorkflowService },
+        { provide: NotificationsService, useValue: { create: jest.fn() } },
       ],
     }).compile();
 

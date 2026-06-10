@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 import { createContext, useContext, useEffect, useState, useCallback } from 'react';
 import { io, Socket } from 'socket.io-client';
 import { useAuth } from './AuthContext';
@@ -68,6 +69,7 @@ export function NotificationProvider({ children }: { children: React.ReactNode }
     return () => {
       s.disconnect();
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isAuthenticated, user?.id]);
 
   // Load initial notifications

@@ -5,6 +5,7 @@ import { TrainingRequest } from './training-request.entity';
 import { TrainingRequestParticipant } from './training-request-participant.entity';
 import { User } from '../users/user.entity';
 import { WorkflowService } from '../workflow/workflow.service';
+import { NotificationsService } from '../notifications/notifications.service';
 import { RequestType, RequestStatus, UserRole } from '../../common/enums';
 import { ForbiddenException, BadRequestException } from '@nestjs/common';
 
@@ -42,6 +43,7 @@ describe('TrainingRequestsService', () => {
         { provide: getRepositoryToken(TrainingRequestParticipant), useValue: mockParticipantRepo },
         { provide: getRepositoryToken(User), useValue: mockUserRepo },
         { provide: WorkflowService, useValue: mockWorkflowService },
+        { provide: NotificationsService, useValue: { create: jest.fn() } },
       ],
     }).compile();
 
