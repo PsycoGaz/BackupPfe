@@ -51,8 +51,9 @@ jobs:
 
       - name: Deploy with Docker Compose
         run: |
-          docker compose -f docker-compose.yml up -d --force-recreate --no-build
+          docker compose -f docker-compose.prod.yml up -d --force-recreate
         env:
+          GITHUB_REPOSITORY: psycogaz/backuppfe
           DB_USERNAME: ${{ secrets.DB_USERNAME }}
           DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
           DB_NAME: ${{ secrets.DB_NAME }}

@@ -2,8 +2,6 @@
 # Usage: docker compose -f docker-compose.prod.yml up -d
 # Requires: .env file with secrets
 
-version: '3.8'
-
 services:
   postgres:
     image: postgres:17-alpine
@@ -24,7 +22,7 @@ services:
       - hr-network
 
   backend:
-    image: ghcr.io/${GITHUB_REPOSITORY:-your-org/hr-training-app}/backend:latest
+    image: ghcr.io/psycogaz/backuppfe/backend:latest
     container_name: hr-training-backend
     environment:
       DB_HOST: postgres
@@ -45,7 +43,7 @@ services:
       - hr-network
 
   frontend:
-    image: ghcr.io/${GITHUB_REPOSITORY:-your-org/hr-training-app}/frontend:latest
+    image: ghcr.io/psycogaz/backuppfe/frontend:latest
     container_name: hr-training-frontend
     ports:
       - "80:80"
