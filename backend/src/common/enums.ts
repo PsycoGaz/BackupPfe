@@ -1,0 +1,49 @@
+export enum UserRole {
+  EMPLOYEE = 'EMPLOYEE',
+  MANAGER = 'MANAGER',
+  RH = 'RH',
+  ADMIN = 'ADMIN',
+}
+
+export enum RequestType {
+  CATALOGUE = 'CATALOGUE',
+  NOUVELLE = 'NOUVELLE',
+}
+
+export enum RequestScope {
+  INDIVIDUAL = 'INDIVIDUAL',
+  TEAM = 'TEAM',
+}
+
+export enum RequestStatus {
+  BROUILLON = 'BROUILLON',
+  EN_ATTENTE_MANAGER = 'EN_ATTENTE_MANAGER',
+  REFUSEE_MANAGER = 'REFUSEE_MANAGER',
+  EN_ATTENTE_RH = 'EN_ATTENTE_RH',
+  REFUSEE_RH = 'REFUSEE_RH',
+  APPROUVEE = 'APPROUVEE',
+  ANNULEE = 'ANNULEE',
+}
+
+export enum ParticipantStatus {
+  PENDING = 'PENDING',
+  CONFIRMED = 'CONFIRMED',
+  CANCELLED = 'CANCELLED',
+}
+
+export enum DecisionRole {
+  MANAGER = 'MANAGER',
+  RH = 'RH',
+}
+
+export enum DecisionType {
+  APPROVED = 'APPROVED',
+  REJECTED = 'REJECTED',
+}
+
+export enum ChatIntent {
+  CREATE_TRAINING_REQUEST = 'CREATE_TRAINING_REQUEST',
+  RECOMMEND_FORMATIONS = 'RECOMMEND_FORMATIONS',
+  GENERATE_JUSTIFICATION = 'GENERATE_JUSTIFICATION',
+  GENERAL = 'GENERAL',
+}

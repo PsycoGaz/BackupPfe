@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL"
+                  xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
+                  xmlns:camunda="http://camunda.org/schema/1.0/bpmn"
+                  xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
+                  xmlns:di="http://www.omg.org/spec/DD/20100524/DI"
+                  id="Definitions_1"
+                  targetNamespace="http://bpmn.io/schema/bpmn">
+
+  <bpmn:process id="employee-training-request" name="Demande Formation Employé" isExecutable="true">
+
+    <!-- Start Event -->
+    <bpmn:startEvent id="StartEvent_1" name="Demande créée">
+      <bpmn:outgoing>Flow_1</bpmn:outgoing>
+    </bpmn:startEvent>
+
+    <!-- User Task: Validation Manager -->
+    <bpmn:userTask id="Task_ManagerValidation" name="Validation Manager"
+                   camunda:assignee="${managerId}">
+      <bpmn:incoming>Flow_1</bpmn:incoming>
+      <bpmn:outgoing>Flow_2</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:sequenceFlow id="Flow_1" sourceRef="StartEvent_1" targetRef="Task_ManagerValidation" />
+
+    <!-- Gateway: Décision Manager -->
+    <bpmn:exclusiveGateway id="Gateway_Manager" name="Manager approuve ?">
+      <bpmn:incoming>Flow_2</bpmn:incoming>
+      <bpmn:outgoing>Flow_3_Approved</bpmn:outgoing>
+      <bpmn:outgoing>Flow_3_Rejected</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+
+    <bpmn:sequenceFlow id="Flow_2" sourceRef="Task_ManagerValidation" targetRef="Gateway_Manager" />
+
+    <!-- Si Manager refuse -->
+    <bpmn:endEvent id="EndEvent_ManagerRejected" name="Refusée Manager">
+      <bpmn:incoming>Flow_3_Rejected</bpmn:incoming>
+    </bpmn:endEvent>
+
+    <bpmn:sequenceFlow id="Flow_3_Rejected" sourceRef="Gateway_Manager" targetRef="EndEvent_ManagerRejected">
+      <bpmn:conditionExpression>${approved == false}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+
+    <!-- Si Manager approuve → Validation RH -->
+    <bpmn:userTask id="Task_RHValidation" name="Validation RH"
+                   camunda:candidateGroups="RH">
+      <bpmn:incoming>Flow_3_Approved</bpmn:incoming>
+      <bpmn:outgoing>Flow_4</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:sequenceFlow id="Flow_3_Approved" sourceRef="Gateway_Manager" targetRef="Task_RHValidation">
+      <bpmn:conditionExpression>${approved == true}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+
+    <!-- Gateway: Décision RH -->
+    <bpmn:exclusiveGateway id="Gateway_RH" name="RH approuve ?">
+      <bpmn:incoming>Flow_4</bpmn:incoming>
+      <bpmn:outgoing>Flow_5_Approved</bpmn:outgoing>
+      <bpmn:outgoing>Flow_5_Rejected</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+
+    <bpmn:sequenceFlow id="Flow_4" sourceRef="Task_RHValidation" targetRef="Gateway_RH" />
+
+    <!-- Si RH refuse -->
+    <bpmn:endEvent id="EndEvent_RHRejected" name="Refusée RH">
+      <bpmn:incoming>Flow_5_Rejected</bpmn:incoming>
+    </bpmn:endEvent>
+
+    <bpmn:sequenceFlow id="Flow_5_Rejected" sourceRef="Gateway_RH" targetRef="EndEvent_RHRejected">
+      <bpmn:conditionExpression>${approved == false}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+
+    <!-- Si RH approuve -->
+    <bpmn:endEvent id="EndEvent_Approved" name="Approuvée">
+      <bpmn:incoming>Flow_5_Approved</bpmn:incoming>
+    </bpmn:endEvent>
+
+    <bpmn:sequenceFlow id="Flow_5_Approved" sourceRef="Gateway_RH" targetRef="EndEvent_Approved">
+      <bpmn:conditionExpression>${approved == true}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+
+  </bpmn:process>
+
+</bpmn:definitions>
