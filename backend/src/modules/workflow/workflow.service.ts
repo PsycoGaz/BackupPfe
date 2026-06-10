@@ -100,7 +100,7 @@ export class WorkflowService {
     taskDefinitionKey: string,
   ): Promise<any | null> {
     try {
-      const response = await this.httpClient.get('/task', {
+      await this.httpClient.get('/task', {
         params: {
           processVariables: `requestId_eq_${requestId}`,
           taskDefinitionKey,

@@ -6,7 +6,7 @@ import { TrainingRequest } from '../training-requests/training-request.entity';
 import { User } from '../users/user.entity';
 import { WorkflowService } from '../workflow/workflow.service';
 import { NotificationsService } from '../notifications/notifications.service';
-import { RequestStatus, UserRole } from '../../common/enums';
+import { RequestStatus } from '../../common/enums';
 import { BadRequestException, ForbiddenException } from '@nestjs/common';
 
 describe('DecisionsService', () => {
@@ -87,7 +87,7 @@ describe('DecisionsService', () => {
         status: RequestStatus.EN_ATTENTE_RH,
       });
 
-      const result = await service.approveAsManager('req-1', 'mgr-1', 'Bon choix');
+      await service.approveAsManager('req-1', 'mgr-1', 'Bon choix');
 
       expect(mockDecisionRepo.save).toHaveBeenCalled();
       expect(mockRequestRepo.save).toHaveBeenCalled();
