@@ -29,7 +29,7 @@ describe('TrainingRequestsService', () => {
       save: jest.fn(),
     };
     mockUserRepo = {
-      find: jest.fn(),
+      find: jest.fn().mockResolvedValue([]),
       findOne: jest.fn(),
     };
     mockWorkflowService = {

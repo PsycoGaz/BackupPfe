@@ -28,6 +28,7 @@ describe('DecisionsService', () => {
     };
     mockUserRepo = {
       findOne: jest.fn(),
+      find: jest.fn().mockResolvedValue([]),
     };
     mockWorkflowService = {
       getNewStatus: jest.fn(),
