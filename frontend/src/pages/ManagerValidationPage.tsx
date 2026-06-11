@@ -1,12 +1,12 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { decisionService } from '../services/decision.service';
 import { TrainingRequest } from '../types';
 
 export function ManagerValidationPage() {
   const [tasks, setTasks] = useState<TrainingRequest[]>([]);
   const [loading, setLoading] = useState(true);
-  const [comment, setComment] = useState('');
-  const [activeRequest, setActiveRequest] = useState<string | null>(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     loadTasks();
@@ -23,28 +23,6 @@ export function ManagerValidationPage() {
     }
   };
 
-  const handleApprove = async (requestId: string) => {
-    try {
-      await decisionService.approveAsManager(requestId, comment);
-      setComment('');
-      setActiveRequest(null);
-      loadTasks();
-    } catch (error: any) {
-      alert(error.response?.data?.message || 'Erreur');
-    }
-  };
-
-  const handleReject = async (requestId: string) => {
-    try {
-      await decisionService.rejectAsManager(requestId, comment);
-      setComment('');
-      setActiveRequest(null);
-      loadTasks();
-    } catch (error: any) {
-      alert(error.response?.data?.message || 'Erreur');
-    }
-  };
-
   if (loading) return <div className="text-center py-10">Chargement...</div>;
 
   return (
@@ -54,7 +32,7 @@ export function ManagerValidationPage() {
       </h1>
 
       {tasks.length === 0 ? (
-        <p className="text-gray-500">Aucune demande à valider.</p>
+        <p className="text-gray-500">Aucune demande a valider.</p>
       ) : (
         <div className="space-y-4">
           {tasks.map((task) => (
@@ -65,11 +43,11 @@ export function ManagerValidationPage() {
                     {task.formation?.name || task.customFormationName}
                   </h3>
                   <p className="text-sm text-gray-600">
-                    Demandé par : {task.createdByUser?.firstName}{' '}
+                    Demande par : {task.createdByUser?.firstName}{' '}
                     {task.createdByUser?.lastName}
                   </p>
                   <p className="text-sm text-gray-600">
-                    Date souhaitée : {task.desiredStartDate}
+                    Date souhaitee : {task.desiredStartDate}
                   </p>
                   {task.justification && (
                     <p className="text-sm text-gray-600 mt-2">
@@ -79,44 +57,12 @@ export function ManagerValidationPage() {
                 </div>
               </div>
 
-              {activeRequest === task.id ? (
-                <div className="mt-4 space-y-3">
-                  <textarea
-                    value={comment}
-                    onChange={(e) => setComment(e.target.value)}
-                    placeholder="Commentaire (optionnel)"
-                    rows={2}
-                    className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm"
-                  />
-                  <div className="flex space-x-2">
-                    <button
-                      onClick={() => handleApprove(task.id)}
-                      className="bg-green-600 text-white px-4 py-2 rounded text-sm hover:bg-green-700"
-                    >
-                      Approuver
-                    </button>
-                    <button
-                      onClick={() => handleReject(task.id)}
-                      className="bg-red-600 text-white px-4 py-2 rounded text-sm hover:bg-red-700"
-                    >
-                      Refuser
-                    </button>
-                    <button
-                      onClick={() => setActiveRequest(null)}
-                      className="bg-gray-200 text-gray-700 px-4 py-2 rounded text-sm"
-                    >
-                      Annuler
-                    </button>
-                  </div>
-                </div>
-              ) : (
-                <button
-                  onClick={() => setActiveRequest(task.id)}
-                  className="mt-4 bg-indigo-600 text-white px-4 py-2 rounded text-sm hover:bg-indigo-700"
-                >
-                  Traiter cette demande
-                </button>
-              )}
+              <button
+                onClick={() => navigate(`/requests/${task.id}`)}
+                className="mt-4 bg-indigo-600 text-white px-4 py-2 rounded text-sm hover:bg-indigo-700"
+              >
+                Traiter cette demande
+              </button>
             </div>
           ))}
         </div>
