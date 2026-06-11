@@ -9,6 +9,7 @@ import { Repository, In } from 'typeorm';
 import { TrainingRequest } from './training-request.entity';
 import { TrainingRequestParticipant } from './training-request-participant.entity';
 import { User } from '../users/user.entity';
+import { Formation } from '../formations/formation.entity';
 import {
   CreateTrainingRequestDto,
   CreateTeamTrainingRequestDto,
@@ -32,6 +33,8 @@ export class TrainingRequestsService {
     private readonly participantRepository: Repository<TrainingRequestParticipant>,
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
+    @InjectRepository(Formation)
+    private readonly formationRepository: Repository<Formation>,
     private readonly workflowService: WorkflowService,
     private readonly notificationsService: NotificationsService,
   ) {}
@@ -98,6 +101,33 @@ export class TrainingRequestsService {
     return request;
   }
 
+  async findByIdForUser(id: string, userId: string, role: UserRole): Promise<TrainingRequest> {
+    const request = await this.findById(id);
+
+    // RH and Admin can see all requests
+    if (role === UserRole.RH || role === UserRole.ADMIN) {
+      return request;
+    }
+
+    // Manager can see own + team requests
+    if (role === UserRole.MANAGER) {
+      if (request.createdBy === userId) return request;
+      const teamMembers = await this.userRepository.find({
+        where: { managerId: userId },
+        select: ['id'],
+      });
+      const teamIds = teamMembers.map((m) => m.id);
+      if (teamIds.includes(request.createdBy)) return request;
+    }
+
+    // Employee can see own requests + requests where they are participant
+    if (request.createdBy === userId) return request;
+    const isParticipant = request.participants?.some((p) => p.userId === userId);
+    if (isParticipant) return request;
+
+    throw new ForbiddenException('Vous n\'avez pas accès à cette demande');
+  }
+
   async createIndividual(
     dto: CreateTrainingRequestDto,
     userId: string,
@@ -106,6 +136,37 @@ export class TrainingRequestsService {
     const user = await this.userRepository.findOne({ where: { id: userId } });
     if (!user) {
       throw new NotFoundException('Utilisateur non trouvé');
+    }
+
+    // Validate formation exists and is active
+    if (dto.formationId) {
+      const formation = await this.formationRepository.findOne({
+        where: { id: dto.formationId },
+      });
+      if (!formation) {
+        throw new BadRequestException('Formation introuvable');
+      }
+      if (!formation.isActive) {
+        throw new BadRequestException('Cette formation n\'est plus disponible');
+      }
+
+      // Check for duplicate pending request
+      const existingRequest = await this.requestRepository.findOne({
+        where: {
+          createdBy: userId,
+          formationId: dto.formationId,
+          status: In([
+            RequestStatus.BROUILLON,
+            RequestStatus.EN_ATTENTE_MANAGER,
+            RequestStatus.EN_ATTENTE_RH,
+          ]),
+        },
+      });
+      if (existingRequest) {
+        throw new BadRequestException(
+          'Vous avez déjà une demande en cours pour cette formation',
+        );
+      }
     }
 
     const request = this.requestRepository.create({

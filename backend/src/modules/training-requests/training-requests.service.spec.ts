@@ -4,6 +4,7 @@ import { getRepositoryToken } from '@nestjs/typeorm';
 import { TrainingRequest } from './training-request.entity';
 import { TrainingRequestParticipant } from './training-request-participant.entity';
 import { User } from '../users/user.entity';
+import { Formation } from '../formations/formation.entity';
 import { WorkflowService } from '../workflow/workflow.service';
 import { NotificationsService } from '../notifications/notifications.service';
 import { RequestType, RequestStatus, UserRole } from '../../common/enums';
@@ -14,6 +15,7 @@ describe('TrainingRequestsService', () => {
   let mockRequestRepo: any;
   let mockParticipantRepo: any;
   let mockUserRepo: any;
+  let mockFormationRepo: any;
   let mockWorkflowService: any;
 
   beforeEach(async () => {
@@ -32,6 +34,9 @@ describe('TrainingRequestsService', () => {
       find: jest.fn().mockResolvedValue([]),
       findOne: jest.fn(),
     };
+    mockFormationRepo = {
+      findOne: jest.fn(),
+    };
     mockWorkflowService = {
       startProcess: jest.fn().mockResolvedValue('process-123'),
     };
@@ -42,6 +47,7 @@ describe('TrainingRequestsService', () => {
         { provide: getRepositoryToken(TrainingRequest), useValue: mockRequestRepo },
         { provide: getRepositoryToken(TrainingRequestParticipant), useValue: mockParticipantRepo },
         { provide: getRepositoryToken(User), useValue: mockUserRepo },
+        { provide: getRepositoryToken(Formation), useValue: mockFormationRepo },
         { provide: WorkflowService, useValue: mockWorkflowService },
         { provide: NotificationsService, useValue: { create: jest.fn() } },
       ],

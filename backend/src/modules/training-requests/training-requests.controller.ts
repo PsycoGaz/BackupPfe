@@ -31,8 +31,8 @@ export class TrainingRequestsController {
   }
 
   @Get(':id')
-  async findOne(@Param('id') id: string) {
-    return this.trainingRequestsService.findById(id);
+  async findOne(@Param('id') id: string, @CurrentUser() user: any) {
+    return this.trainingRequestsService.findByIdForUser(id, user.id, user.role);
   }
 
   @Post()

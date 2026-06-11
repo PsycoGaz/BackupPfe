@@ -28,6 +28,20 @@ class IsNotPastDateConstraint implements ValidatorConstraintInterface {
   }
 }
 
+@ValidatorConstraint({ name: 'isEndDateAfterStart', async: false })
+class IsEndDateAfterStartConstraint implements ValidatorConstraintInterface {
+  validate(value: string, args: ValidationArguments) {
+    if (!value) return true;
+    const obj = args.object as { desiredStartDate?: string };
+    if (!obj.desiredStartDate) return true;
+    return new Date(value) >= new Date(obj.desiredStartDate);
+  }
+
+  defaultMessage() {
+    return 'La date de fin doit être égale ou postérieure à la date de début';
+  }
+}
+
 export class CreateTrainingRequestDto {
   @IsEnum(RequestType)
   requestType: RequestType;
@@ -57,6 +71,7 @@ export class CreateTrainingRequestDto {
   @IsOptional()
   @IsDateString()
   @Validate(IsNotPastDateConstraint)
+  @Validate(IsEndDateAfterStartConstraint)
   desiredEndDate?: string;
 
   @IsOptional()

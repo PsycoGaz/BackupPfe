@@ -9,8 +9,40 @@ import {
   Matches,
   MaxLength,
   ValidateIf,
+  Validate,
+  ValidatorConstraint,
+  ValidatorConstraintInterface,
+  ValidationArguments,
 } from 'class-validator';
 import { RequestType } from '../../../common/enums';
+
+@ValidatorConstraint({ name: 'isNotPastDateTeam', async: false })
+class IsNotPastDateConstraint implements ValidatorConstraintInterface {
+  validate(value: string) {
+    if (!value) return true;
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    return new Date(value) >= today;
+  }
+
+  defaultMessage(args: ValidationArguments) {
+    return `${args.property} ne peut pas être une date passée`;
+  }
+}
+
+@ValidatorConstraint({ name: 'isEndDateAfterStartTeam', async: false })
+class IsEndDateAfterStartConstraint implements ValidatorConstraintInterface {
+  validate(value: string, args: ValidationArguments) {
+    if (!value) return true;
+    const obj = args.object as { desiredStartDate?: string };
+    if (!obj.desiredStartDate) return true;
+    return new Date(value) >= new Date(obj.desiredStartDate);
+  }
+
+  defaultMessage() {
+    return 'La date de fin doit être égale ou postérieure à la date de début';
+  }
+}
 
 export class CreateTeamTrainingRequestDto {
   @IsEnum(RequestType)
@@ -35,10 +67,13 @@ export class CreateTeamTrainingRequestDto {
 
   @IsNotEmpty()
   @IsDateString()
+  @Validate(IsNotPastDateConstraint)
   desiredStartDate: string;
 
   @IsOptional()
   @IsDateString()
+  @Validate(IsNotPastDateConstraint)
+  @Validate(IsEndDateAfterStartConstraint)
   desiredEndDate?: string;
 
   @IsOptional()
