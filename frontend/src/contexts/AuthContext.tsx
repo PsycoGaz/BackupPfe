@@ -1,6 +1,6 @@
 /* eslint-disable react-refresh/only-export-components */
 import { createContext, useContext, useState, ReactNode } from 'react';
-import { User } from '../types';
+import { User, UserRole } from '../types';
 
 interface AuthContextType {
   user: User | null;
@@ -8,6 +8,9 @@ interface AuthContextType {
   login: (token: string, user: User) => void;
   logout: () => void;
   isAuthenticated: boolean;
+  viewMode: 'admin' | 'employee';
+  toggleViewMode: () => void;
+  effectiveRole: UserRole | undefined;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -20,6 +23,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [token, setToken] = useState<string | null>(() => {
     return localStorage.getItem('token');
   });
+  const [viewMode, setViewMode] = useState<'admin' | 'employee'>('admin');
+
+  const toggleViewMode = () => {
+    setViewMode((prev) => (prev === 'admin' ? 'employee' : 'admin'));
+  };
+
+  const effectiveRole: UserRole | undefined =
+    user && viewMode === 'employee' ? UserRole.EMPLOYEE : user?.role;
 
   const login = (newToken: string, newUser: User) => {
     localStorage.setItem('token', newToken);
@@ -43,6 +54,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         login,
         logout,
         isAuthenticated: !!token && !!user,
+        viewMode,
+        toggleViewMode,
+        effectiveRole,
       }}
     >
       {children}

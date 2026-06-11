@@ -6,7 +6,7 @@ import { UserRole } from '../types';
 import { ChatBubble } from './ChatBubble';
 
 export function Layout({ children }: { children: React.ReactNode }) {
-  const { user, logout } = useAuth();
+  const { user, logout, viewMode, toggleViewMode, effectiveRole } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -42,14 +42,14 @@ export function Layout({ children }: { children: React.ReactNode }) {
             <NavItem to="/formations" label="Catalogue" active={isActive('/formations')} icon={<IconCatalog />} />
           </NavSection>
 
-          {(user?.role === UserRole.MANAGER || user?.role === UserRole.ADMIN) && (
+          {(effectiveRole === UserRole.MANAGER || effectiveRole === UserRole.ADMIN) && (
             <NavSection title="Gestion équipe">
               <NavItem to="/team-request" label="Demande collective" active={isActive('/team-request')} icon={<IconTeam />} />
               <NavItem to="/manager-validation" label="Validations" active={isActive('/manager-validation')} icon={<IconCheck />} />
             </NavSection>
           )}
 
-          {(user?.role === UserRole.RH || user?.role === UserRole.ADMIN) && (
+          {(effectiveRole === UserRole.RH || effectiveRole === UserRole.ADMIN) && (
             <NavSection title="Administration">
               <NavItem to="/rh-validation" label="Validations RH" active={isActive('/rh-validation')} icon={<IconShield />} />
               <NavItem to="/formations-catalog" label="Gérer formations" active={isActive('/formations-catalog')} icon={<IconSettings />} />
@@ -61,7 +61,20 @@ export function Layout({ children }: { children: React.ReactNode }) {
         </nav>
 
         {/* User info */}
-        <div className="p-4 border-t border-slate-700/50">
+        <div className="p-4 border-t border-slate-700/50 space-y-3">
+          {(user?.role === UserRole.RH || user?.role === UserRole.ADMIN) && (
+            <button
+              onClick={toggleViewMode}
+              className="w-full flex items-center justify-between px-3 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 transition-colors"
+            >
+              <span className="text-xs text-slate-300">
+                {viewMode === 'admin' ? 'Mode Admin' : 'Mode Employé'}
+              </span>
+              <span className={`w-8 h-4 rounded-full relative transition-colors ${viewMode === 'admin' ? 'bg-blue-600' : 'bg-slate-600'}`}>
+                <span className={`absolute top-0.5 w-3 h-3 rounded-full bg-white transition-transform ${viewMode === 'admin' ? 'left-4' : 'left-0.5'}`} />
+              </span>
+            </button>
+          )}
           <div className="flex items-center gap-3">
             <div className="w-9 h-9 rounded-full bg-slate-700 flex items-center justify-center text-xs font-medium text-slate-300">
               {user?.firstName?.[0]}{user?.lastName?.[0]}
@@ -93,7 +106,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
           <div className="flex items-center gap-4">
             <NotificationBell />
             <span className="text-xs text-slate-400 bg-slate-100 px-2.5 py-1 rounded-full font-medium">
-              {getRoleLabel(user?.role)}
+              {getRoleLabel(effectiveRole)}
             </span>
           </div>
         </header>
