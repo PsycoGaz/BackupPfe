@@ -262,6 +262,7 @@ export function CreateRequestPage() {
                 type="date"
                 value={desiredStartDate}
                 onChange={(e) => setDesiredStartDate(e.target.value)}
+                min={new Date().toISOString().split('T')[0]}
                 required
                 className="input-field"
               />
@@ -274,6 +275,7 @@ export function CreateRequestPage() {
                 type="date"
                 value={desiredEndDate}
                 onChange={(e) => setDesiredEndDate(e.target.value)}
+                min={desiredStartDate || new Date().toISOString().split('T')[0]}
                 className="input-field"
               />
             </div>

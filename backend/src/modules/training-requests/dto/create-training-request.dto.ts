@@ -7,8 +7,26 @@ import {
   Matches,
   MaxLength,
   ValidateIf,
+  Validate,
+  ValidatorConstraint,
+  ValidatorConstraintInterface,
+  ValidationArguments,
 } from 'class-validator';
 import { RequestType } from '../../../common/enums';
+
+@ValidatorConstraint({ name: 'isNotPastDate', async: false })
+class IsNotPastDateConstraint implements ValidatorConstraintInterface {
+  validate(value: string) {
+    if (!value) return true;
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    return new Date(value) >= today;
+  }
+
+  defaultMessage(args: ValidationArguments) {
+    return `${args.property} ne peut pas être une date passée`;
+  }
+}
 
 export class CreateTrainingRequestDto {
   @IsEnum(RequestType)
@@ -33,10 +51,12 @@ export class CreateTrainingRequestDto {
 
   @IsNotEmpty()
   @IsDateString()
+  @Validate(IsNotPastDateConstraint)
   desiredStartDate: string;
 
   @IsOptional()
   @IsDateString()
+  @Validate(IsNotPastDateConstraint)
   desiredEndDate?: string;
 
   @IsOptional()
