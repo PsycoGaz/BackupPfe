@@ -62,7 +62,7 @@ export function DomainsPage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center py-20">
-        <div className="animate-spin rounded-full h-6 w-6 border-2 border-blue-600 border-t-transparent"></div>
+        <div className="animate-spin rounded-full h-6 w-6 border-2 border-violet-600 border-t-transparent"></div>
       </div>
     );
   }
@@ -124,13 +124,13 @@ export function DomainsPage() {
               ) : (
                 <>
                   <div className="flex items-center gap-3">
-                    <div className="w-2 h-2 rounded-full bg-blue-400"></div>
+                    <div className="w-2 h-2 rounded-full bg-violet-400"></div>
                     <span className="text-sm font-medium text-slate-700">{domain}</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <button
                       onClick={() => { setEditingDomain(domain); setEditValue(domain); }}
-                      className="p-1.5 rounded-md text-slate-400 hover:text-blue-600 hover:bg-blue-50 transition-colors"
+                      className="p-1.5 rounded-md text-slate-400 hover:text-violet-600 hover:bg-violet-50 transition-colors"
                       title="Renommer"
                     >
                       <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>

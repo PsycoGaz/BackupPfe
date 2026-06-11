@@ -99,7 +99,7 @@ export function CreateRequestPage() {
           onClick={() => { setRequestType(RequestType.CATALOGUE); handleClearSelection(); }}
           className={`px-5 py-2.5 text-sm font-medium border-b-2 transition-colors ${
             requestType === RequestType.CATALOGUE
-              ? 'border-blue-600 text-blue-600'
+              ? 'border-violet-600 text-violet-600'
               : 'border-transparent text-slate-500 hover:text-slate-700'
           }`}
         >
@@ -110,7 +110,7 @@ export function CreateRequestPage() {
           onClick={() => setRequestType(RequestType.NOUVELLE)}
           className={`px-5 py-2.5 text-sm font-medium border-b-2 transition-colors ${
             requestType === RequestType.NOUVELLE
-              ? 'border-blue-600 text-blue-600'
+              ? 'border-violet-600 text-violet-600'
               : 'border-transparent text-slate-500 hover:text-slate-700'
           }`}
         >
@@ -177,7 +177,7 @@ export function CreateRequestPage() {
                   <button
                     type="button"
                     onClick={() => setRequestType(RequestType.NOUVELLE)}
-                    className="mt-2 text-blue-600 hover:text-blue-800 text-xs font-medium"
+                    className="mt-2 text-violet-600 hover:text-violet-800 text-xs font-medium"
                   >
                     Proposer une nouvelle formation
                   </button>
@@ -186,12 +186,12 @@ export function CreateRequestPage() {
             </>
           ) : (
             /* Selected formation confirmed */
-            <div className="bg-blue-50 border border-blue-200 rounded-xl p-4">
+            <div className="bg-violet-50 border border-violet-200 rounded-xl p-4">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-xs text-blue-600 font-medium">Formation sélectionnée</p>
+                  <p className="text-xs text-violet-600 font-medium">Formation sélectionnée</p>
                   <h3 className="text-sm font-semibold text-slate-900 mt-1">{selectedFormation.name}</h3>
-                  <span className="inline-block mt-1 text-[11px] bg-blue-100 text-blue-700 px-2 py-0.5 rounded font-medium">
+                  <span className="inline-block mt-1 text-[11px] bg-violet-100 text-violet-700 px-2 py-0.5 rounded font-medium">
                     {selectedFormation.domain}
                   </span>
                   {selectedFormation.description && (

@@ -50,7 +50,7 @@ export function DashboardPage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center py-20">
-        <div className="animate-spin rounded-full h-6 w-6 border-2 border-blue-600 border-t-transparent"></div>
+        <div className="animate-spin rounded-full h-6 w-6 border-2 border-violet-600 border-t-transparent"></div>
       </div>
     );
   }
@@ -109,7 +109,7 @@ export function DashboardPage() {
         <div className="lg:col-span-2 card">
           <div className="px-5 py-4 border-b border-slate-100 flex justify-between items-center">
             <h2 className="text-sm font-semibold text-slate-900">Demandes récentes</h2>
-            <Link to="/my-requests" className="text-xs text-blue-600 hover:text-blue-800 font-medium">
+            <Link to="/my-requests" className="text-xs text-violet-600 hover:text-violet-800 font-medium">
               Tout voir
             </Link>
           </div>
@@ -215,8 +215,8 @@ function MetricCard({ label, value, trend }: { label: string; value: number; tre
 function QuickAction({ to, label, desc }: { to: string; label: string; desc: string }) {
   return (
     <Link to={to} className="flex items-center gap-3 p-2.5 -mx-2 rounded-lg hover:bg-slate-50 transition-colors group">
-      <div className="w-8 h-8 rounded-lg bg-slate-100 group-hover:bg-blue-50 flex items-center justify-center flex-shrink-0 transition-colors">
-        <svg className="w-3.5 h-3.5 text-slate-500 group-hover:text-blue-600 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+      <div className="w-8 h-8 rounded-lg bg-slate-100 group-hover:bg-violet-50 flex items-center justify-center flex-shrink-0 transition-colors">
+        <svg className="w-3.5 h-3.5 text-slate-500 group-hover:text-violet-600 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
           <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
         </svg>
       </div>

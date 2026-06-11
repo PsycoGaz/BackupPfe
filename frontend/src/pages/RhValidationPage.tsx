@@ -67,7 +67,7 @@ export function RhValidationPage() {
 
               <button
                 onClick={() => navigate(`/requests/${task.id}`)}
-                className="mt-4 bg-indigo-600 text-white px-4 py-2 rounded text-sm hover:bg-indigo-700"
+                className="mt-4 bg-violet-600 text-white px-4 py-2 rounded text-sm hover:bg-violet-700"
               >
                 Traiter cette demande
               </button>

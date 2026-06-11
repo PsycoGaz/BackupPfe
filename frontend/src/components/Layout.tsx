@@ -20,21 +20,17 @@ export function Layout({ children }: { children: React.ReactNode }) {
   return (
     <div className="min-h-screen bg-slate-50 flex">
       {/* Sidebar */}
-      <aside className="w-[260px] bg-slate-900 text-white flex flex-col fixed h-full z-40">
+      <aside className="w-[260px] bg-gradient-to-b from-violet-950 to-violet-900 text-white flex flex-col fixed h-full z-40">
         {/* Brand */}
-        <div className="h-16 flex items-center px-6 border-b border-slate-700/50">
+        <div className="h-16 flex items-center px-6 border-b border-violet-800/50">
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center">
-              <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-              </svg>
-            </div>
+            <img src="/logo.png" alt="HR Training" className="w-8 h-8 object-contain" />
             <span className="font-semibold text-sm tracking-tight">HR Training</span>
           </div>
         </div>
 
         {/* Navigation */}
-        <nav className="flex-1 overflow-y-auto py-4 px-3 space-y-6">
+        <nav className="flex-1 overflow-y-auto scrollbar-hide py-4 px-3 space-y-6">
           <NavSection title="Espace personnel">
             <NavItem to="/dashboard" label="Tableau de bord" active={isActive('/dashboard')} icon={<IconDashboard />} />
             <NavItem to="/my-requests" label="Mes demandes" active={isActive('/my-requests')} icon={<IconList />} />
@@ -61,14 +57,14 @@ export function Layout({ children }: { children: React.ReactNode }) {
         </nav>
 
         {/* User info */}
-        <div className="p-4 border-t border-slate-700/50 space-y-3">
+        <div className="p-4 border-t border-violet-800/50 space-y-3">
           {(user?.role === UserRole.RH || user?.role === UserRole.ADMIN) && (
             <button
               onClick={toggleViewMode}
-              className="w-full flex items-center gap-2.5 px-3 py-2.5 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700/50 transition-all group"
+              className="w-full flex items-center gap-2.5 px-3 py-2.5 rounded-lg bg-violet-800/50 hover:bg-violet-800 border border-violet-700/50 transition-all group"
             >
               {viewMode === 'admin' ? (
-                <svg className="w-4 h-4 text-blue-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <svg className="w-4 h-4 text-violet-300 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
                 </svg>
               ) : (
@@ -90,7 +86,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
             </button>
           )}
           <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-full bg-slate-700 flex items-center justify-center text-xs font-medium text-slate-300">
+            <div className="w-9 h-9 rounded-full bg-violet-800 flex items-center justify-center text-xs font-medium text-violet-200">
               {user?.firstName?.[0]}{user?.lastName?.[0]}
             </div>
             <div className="flex-1 min-w-0">
@@ -99,7 +95,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
             </div>
             <button
               onClick={handleLogout}
-              className="p-1.5 rounded-md text-slate-400 hover:text-white hover:bg-slate-700 transition-colors"
+              className="p-1.5 rounded-md text-violet-300 hover:text-white hover:bg-violet-800 transition-colors"
               title="Déconnexion"
             >
               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -138,7 +134,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
 function NavSection({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <div>
-      <p className="px-3 mb-2 text-[10px] font-semibold uppercase tracking-widest text-slate-500">
+      <p className="px-3 mb-2 text-[10px] font-semibold uppercase tracking-widest text-violet-400/60">
         {title}
       </p>
       <div className="space-y-0.5">{children}</div>
@@ -152,8 +148,8 @@ function NavItem({ to, label, active, icon }: { to: string; label: string; activ
       to={to}
       className={`flex items-center gap-3 px-3 py-2 rounded-lg text-[13px] font-medium transition-colors ${
         active
-          ? 'bg-blue-600/10 text-blue-400'
-          : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800'
+          ? 'bg-violet-600/20 text-violet-200'
+          : 'text-violet-300/70 hover:text-white hover:bg-violet-800/50'
       }`}
     >
       <span className="w-4 h-4 flex-shrink-0">{icon}</span>
@@ -275,7 +271,7 @@ function NotificationBell() {
             {unreadCount > 0 && (
               <button
                 onClick={markAllAsRead}
-                className="text-[11px] text-blue-600 hover:text-blue-800 font-medium"
+                className="text-[11px] text-violet-600 hover:text-violet-800 font-medium"
               >
                 Tout marquer comme lu
               </button>
@@ -292,12 +288,12 @@ function NotificationBell() {
                   key={notif.id}
                   onClick={() => handleClick(notif)}
                   className={`w-full text-left px-4 py-3 hover:bg-slate-50 transition-colors ${
-                    !notif.isRead ? 'bg-blue-50/40' : ''
+                    !notif.isRead ? 'bg-violet-50/40' : ''
                   }`}
                 >
                   <div className="flex items-start gap-3">
                     {!notif.isRead && (
-                      <div className="w-2 h-2 rounded-full bg-blue-500 mt-1.5 flex-shrink-0" />
+                      <div className="w-2 h-2 rounded-full bg-violet-500 mt-1.5 flex-shrink-0" />
                     )}
                     <div className={`flex-1 min-w-0 ${notif.isRead ? 'ml-5' : ''}`}>
                       <p className="text-[13px] text-slate-700 leading-snug">{notif.message}</p>

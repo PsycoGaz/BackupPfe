@@ -39,7 +39,7 @@ export function FormationsPage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center py-20">
-        <div className="animate-spin rounded-full h-6 w-6 border-2 border-blue-600 border-t-transparent"></div>
+        <div className="animate-spin rounded-full h-6 w-6 border-2 border-violet-600 border-t-transparent"></div>
       </div>
     );
   }
@@ -100,7 +100,7 @@ export function FormationsPage() {
                 <div className="mt-4 pt-3 border-t border-slate-100">
                   <Link
                     to={`/create-request?formationId=${formation.id}&formationName=${encodeURIComponent(formation.name)}`}
-                    className="text-xs text-blue-600 hover:text-blue-800 font-medium"
+                    className="text-xs text-violet-600 hover:text-violet-800 font-medium"
                   >
                     Demander cette formation
                   </Link>

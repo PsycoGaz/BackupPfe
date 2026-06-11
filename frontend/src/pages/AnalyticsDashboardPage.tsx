@@ -15,7 +15,7 @@ export function AnalyticsDashboardPage() {
 
   if (loading) return (
     <div className="flex items-center justify-center py-20">
-      <div className="animate-spin rounded-full h-6 w-6 border-2 border-blue-600 border-t-transparent"></div>
+      <div className="animate-spin rounded-full h-6 w-6 border-2 border-violet-600 border-t-transparent"></div>
     </div>
   );
 
@@ -112,7 +112,7 @@ export function AnalyticsDashboardPage() {
                       <span className="text-[11px] text-slate-500">{f.count} demande{parseInt(f.count) > 1 ? 's' : ''}</span>
                     </div>
                     <div className="w-full h-2 bg-slate-100 rounded-full overflow-hidden">
-                      <div className="h-full bg-blue-500 rounded-full" style={{ width: `${pct}%` }} />
+                      <div className="h-full bg-violet-500 rounded-full" style={{ width: `${pct}%` }} />
                     </div>
                   </div>
                 );
@@ -182,7 +182,7 @@ export function AnalyticsDashboardPage() {
                     <span className="text-[10px] text-slate-500">{m.count}</span>
                     <div className="w-full bg-slate-100 rounded-t" style={{ height: '100px', position: 'relative' }}>
                       <div
-                        className="absolute bottom-0 w-full bg-blue-500 rounded-t transition-all"
+                        className="absolute bottom-0 w-full bg-violet-500 rounded-t transition-all"
                         style={{ height: `${heightPct}%` }}
                       />
                     </div>
@@ -201,13 +201,13 @@ export function AnalyticsDashboardPage() {
 function KpiCard({ label, value, color }: { label: string; value: string; color: string }) {
   const colorMap: Record<string, string> = {
     emerald: 'bg-emerald-50 border-emerald-100',
-    blue: 'bg-blue-50 border-blue-100',
+    blue: 'bg-violet-50 border-violet-100',
     amber: 'bg-amber-50 border-amber-100',
     slate: 'bg-slate-50 border-slate-100',
   };
   const dotColorMap: Record<string, string> = {
     emerald: 'bg-emerald-500',
-    blue: 'bg-blue-500',
+    blue: 'bg-violet-500',
     amber: 'bg-amber-500',
     slate: 'bg-slate-500',
   };

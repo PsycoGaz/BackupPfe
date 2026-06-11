@@ -46,7 +46,7 @@ export function MyRequestsPage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center py-20">
-        <div className="animate-spin rounded-full h-6 w-6 border-2 border-blue-600 border-t-transparent"></div>
+        <div className="animate-spin rounded-full h-6 w-6 border-2 border-violet-600 border-t-transparent"></div>
       </div>
     );
   }
@@ -106,7 +106,7 @@ export function MyRequestsPage() {
       {filtered.length === 0 ? (
         <div className="card p-10 text-center">
           <p className="text-sm text-slate-500">Aucune demande trouvée.</p>
-          <Link to="/create-request" className="text-blue-600 hover:underline text-xs mt-2 inline-block">
+          <Link to="/create-request" className="text-violet-600 hover:underline text-xs mt-2 inline-block">
             Créer votre première demande
           </Link>
         </div>

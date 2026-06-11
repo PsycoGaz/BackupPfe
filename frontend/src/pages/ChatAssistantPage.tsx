@@ -74,7 +74,7 @@ export function ChatAssistantPage() {
             <div
               className={`max-w-[70%] rounded-lg px-4 py-2 ${
                 msg.role === 'user'
-                  ? 'bg-indigo-600 text-white'
+                  ? 'bg-violet-600 text-white'
                   : 'bg-gray-100 text-gray-800'
               }`}
             >
@@ -124,12 +124,12 @@ export function ChatAssistantPage() {
           onChange={(e) => setInput(e.target.value)}
           onKeyDown={handleKeyDown}
           placeholder="Tapez votre message..."
-          className="flex-1 border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          className="flex-1 border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-violet-500"
         />
         <button
           onClick={sendMessage}
           disabled={loading || !input.trim()}
-          className="bg-indigo-600 text-white px-6 py-2 rounded-md hover:bg-indigo-700 disabled:opacity-50"
+          className="bg-violet-600 text-white px-6 py-2 rounded-md hover:bg-violet-700 disabled:opacity-50"
         >
           Envoyer
         </button>
