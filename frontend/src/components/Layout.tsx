@@ -65,14 +65,28 @@ export function Layout({ children }: { children: React.ReactNode }) {
           {(user?.role === UserRole.RH || user?.role === UserRole.ADMIN) && (
             <button
               onClick={toggleViewMode}
-              className="w-full flex items-center justify-between px-3 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 transition-colors"
+              className="w-full flex items-center gap-2.5 px-3 py-2.5 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700/50 transition-all group"
             >
-              <span className="text-xs text-slate-300">
-                {viewMode === 'admin' ? 'Mode Admin' : 'Mode Employé'}
+              {viewMode === 'admin' ? (
+                <svg className="w-4 h-4 text-blue-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                </svg>
+              ) : (
+                <svg className="w-4 h-4 text-emerald-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                </svg>
+              )}
+              <span className="flex-1 text-left">
+                <span className="block text-xs font-medium text-slate-200">
+                  {viewMode === 'admin' ? 'Mode RH' : 'Mode Employé'}
+                </span>
+                <span className="block text-[10px] text-slate-400">
+                  {viewMode === 'admin' ? 'Gestion & administration' : 'Espace personnel'}
+                </span>
               </span>
-              <span className={`w-8 h-4 rounded-full relative transition-colors ${viewMode === 'admin' ? 'bg-blue-600' : 'bg-slate-600'}`}>
-                <span className={`absolute top-0.5 w-3 h-3 rounded-full bg-white transition-transform ${viewMode === 'admin' ? 'left-4' : 'left-0.5'}`} />
-              </span>
+              <svg className="w-3.5 h-3.5 text-slate-500 group-hover:text-slate-300 transition-colors shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
+              </svg>
             </button>
           )}
           <div className="flex items-center gap-3">
